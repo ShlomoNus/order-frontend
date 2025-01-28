@@ -45,13 +45,24 @@ export function ProductsInput({ itemsProp = [] }: { itemsProp: string[] }) {
             <CommandGroup>
               {items.map((item) => (
                 <CommandItem
+                  style={{
+                    pointerEvents: selectedValues.has(item) ? "none" : "auto",
+                  }}
                   key={item}
                   value={item}
                   onSelect={(currentValue) => {
+                    console.log("dmksmdksmdk");
+
                     setValue(currentValue === value ? "" : currentValue);
-                    setSelectedValues(
-                      new Set([...selectedValues, currentValue]),
-                    );
+                    const newSelectedProductList = new Set([
+                      ...selectedValues,
+                      currentValue,
+                    ]);
+
+                    if (newSelectedProductList.size === selectedValues.size)
+                      return;
+
+                    setSelectedValues(new Set(newSelectedProductList));
 
                     setOpen(false);
                   }}

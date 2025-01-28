@@ -1,4 +1,4 @@
-import OrderSelect from "@/components/orderSelect";
+import OrderSelect from "@/components/productsSelect";
 import { ProductsInput } from "@/components/productsInput";
 import { fetchCategories } from "@/slices/categories";
 import { AppDispatch, RootState } from "@/store";
