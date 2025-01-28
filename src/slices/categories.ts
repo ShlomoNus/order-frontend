@@ -6,15 +6,24 @@ export interface Category {
   products: [{ name: string }];
 }
 
-const initialState: { categories: Category[]; loading: boolean } = {
+const initialState: {
+  categories: Category[];
+  loading: boolean;
+  selectedCategory: string;
+} = {
   categories: [],
   loading: false,
+  selectedCategory: "",
 };
 
 const categoriesSlice = createSlice({
   name: "categories",
   initialState,
-  reducers: {},
+  reducers: {
+    selectCategory: (state, action: PayloadAction<string>) => {
+      state.selectedCategory = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(
@@ -43,5 +52,7 @@ export const fetchCategories = createAsyncThunk(
     return data;
   },
 );
+
+export const { selectCategory } = categoriesSlice.actions;
 
 export default categoriesSlice.reducer;
