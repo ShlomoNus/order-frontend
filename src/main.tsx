@@ -1,14 +1,14 @@
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import { Provider } from "react-redux";
-import App from "./App.tsx";
 import "./index.css";
 import { store } from "./store.tsx";
+import SecondPage from "./pages/secondPage.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <SecondPage />,
   },
 ]);
 

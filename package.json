@@ -15,12 +15,15 @@
     "fix": "npm run lint-fix && npm run prettier-fix"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.5",
+    "@radix-ui/react-popover": "^1.1.5",
     "@radix-ui/react-slot": "^1.1.1",
     "@reduxjs/toolkit": "^2.5.1",
     "axios": "^1.7.9",
     "babel-plugin-react-compiler": "^19.0.0-beta-df7b47d-20241124",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cmdk": "^1.0.0",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-react-compiler": "^19.0.0-beta-df7b47d-20241124",
     "jotai": "^2.10.3",

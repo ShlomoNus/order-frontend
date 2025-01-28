@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "./slices/categories";
 import { AppDispatch, RootState } from "./store";
 
-function App() {
+function FirstPage() {
   const dispatch = useDispatch<AppDispatch>();
   const categories = useSelector(
     (state: RootState) => state.categories.categories,
@@ -27,4 +27,4 @@ function App() {
   );
 }
 
-export default App;
+export default FirstPage;
