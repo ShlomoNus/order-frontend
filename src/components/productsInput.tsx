@@ -13,12 +13,26 @@ import {
 } from "./_ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "./_ui/popover";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 export function ProductsInput({ itemsProp = [] }: { itemsProp: string[] }) {
+  const selectedCategory = useSelector(
+    (state: RootState) => state.categories.selectedCategory,
+  );
+
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const [selectedValues, setSelectedValues] = useState<Set<string>>(new Set());
   const [items, setItems] = useState<string[]>([]);
+
+  function shouldBeOpen(open: boolean) {
+    if (!selectedCategory) {
+      return;
+    }
+
+    setOpen(open);
+  }
 
   useEffect(() => {
     setItems(itemsProp);
@@ -26,7 +40,7 @@ export function ProductsInput({ itemsProp = [] }: { itemsProp: string[] }) {
   }, [itemsProp]);
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open && !!selectedCategory} onOpenChange={shouldBeOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"

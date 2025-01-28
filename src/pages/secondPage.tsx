@@ -25,8 +25,9 @@ export default function SecondPage() {
   }, [dispatch]);
 
   return (
-    <div className="h-svh flex flex-row justify-center items-center">
+    <div className="h-svh flex flex-row justify-center items-center gap-10">
       <ProductsInput itemsProp={itemsProp} />
+
       <OrderSelect />
     </div>
   );
