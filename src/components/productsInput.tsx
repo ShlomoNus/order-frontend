@@ -29,7 +29,6 @@ export function ProductsInput() {
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState<string[]>([]);
 
-  // Handles popover open/close state
   function shouldBeOpen(open: boolean) {
     if (!selectedCategory) {
       return;
