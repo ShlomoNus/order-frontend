@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 
-export function ProductsInput({ itemsProp = [] }: { itemsProp: string[] }) {
+export function ProductsInput({ productList = [] }: { productList: string[] }) {
   const selectedCategory = useSelector(
     (state: RootState) => state.categories.selectedCategory,
   );
@@ -35,9 +35,9 @@ export function ProductsInput({ itemsProp = [] }: { itemsProp: string[] }) {
   }
 
   useEffect(() => {
-    setItems(itemsProp);
+    setItems(productList);
     setValue("");
-  }, [itemsProp]);
+  }, [productList]);
 
   return (
     <Popover open={open && !!selectedCategory} onOpenChange={shouldBeOpen}>

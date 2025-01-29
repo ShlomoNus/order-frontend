@@ -9,7 +9,7 @@ import { selectCategory } from "@/slices/categories";
 import { AppDispatch, RootState } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
 
-export default function OrderSelect() {
+export default function ProductSelect() {
   const categories = useSelector(
     (state: RootState) => state.categories.categories,
   );
