@@ -19,6 +19,7 @@ const orderSlice = createSlice({
   name: "categories",
   initialState,
   reducers: {
+    resetOrderState: () => initialState,
     addProductToOrder: (
       state,
       action: PayloadAction<{ categoryName: string; productName: string }>,
@@ -75,6 +76,10 @@ const orderSlice = createSlice({
         state.totalProducts = state.totalProducts.filter(
           (p) => p !== productName,
         );
+
+        if (state.orderedCategories[categoryName].length === 0) {
+          delete state.orderedCategories[categoryName];
+        }
       }
     },
 
@@ -112,6 +117,7 @@ export const {
   updateProductAmount,
   deleteProduct,
   unSelectProduct,
+  resetOrderState,
 } = orderSlice.actions;
 
 export default orderSlice.reducer;

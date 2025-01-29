@@ -20,6 +20,8 @@ const categoriesSlice = createSlice({
   name: "categories",
   initialState,
   reducers: {
+    resetCategoryState: () => initialState,
+
     selectCategory: (state, action: PayloadAction<string>) => {
       state.selectedCategory = action.payload;
     },
@@ -53,6 +55,6 @@ export const fetchCategories = createAsyncThunk(
   },
 );
 
-export const { selectCategory } = categoriesSlice.actions;
+export const { selectCategory, resetCategoryState } = categoriesSlice.actions;
 
 export default categoriesSlice.reducer;

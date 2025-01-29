@@ -12,7 +12,11 @@ import {
   FormMessage,
 } from "@/components/_ui/form";
 import { Input } from "@/components/_ui/input";
-import { OrderedProduct } from "@/slices/order";
+import { OrderedProduct, resetOrderState } from "@/slices/order";
+import { useNavigate } from "react-router";
+import { AppDispatch } from "@/store";
+import { useDispatch } from "react-redux";
+import { resetCategoryState } from "@/slices/categories";
 
 const formSchema = z.object({
   firstName: z.string().min(2, {
@@ -40,15 +44,27 @@ export default function OrderForm({
     },
   });
 
+  const nav = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+
   const onSubmit = async (values: typeof formSchema._type) => {
-    const postBody = { ...values, products };
+    try {
+      const postBody = { ...values, products };
+      const { data } = await axios.post(
+        "http://localhost:5050/orders/login",
+        postBody,
+      );
 
-    const { data } = await axios.post(
-      "http://localhost:5050/orders/login",
-      postBody,
-    );
+      console.log("data", data);
+    } catch (error) {
+      console.error("Error during submission:", error);
 
-    console.log("data", data);
+      // Optionally display an error message to the user
+    } finally {
+      dispatch(resetCategoryState());
+      dispatch(resetOrderState());
+      nav("/");
+    }
   };
 
   return (
