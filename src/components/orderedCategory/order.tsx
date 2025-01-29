@@ -1,13 +1,29 @@
+import { RootState } from "@/store";
 import OrderedCategory from "./orderedCategory";
+import { useSelector } from "react-redux";
 
 export default function Order() {
-  const x = [1, 2, 3];
+  const { orderedCategories } = useSelector((state: RootState) => state.order);
+
+  const categoryKeys = Object.keys(orderedCategories);
 
   return (
-    <div className="flex flex-row">
-      {x.map((_) => (
-        <OrderedCategory />
-      ))}
-    </div>
+    <>
+      {categoryKeys.length > 0 && (
+        <div className="flex flex-row-reverse w-full pr-28">
+          {Object.entries(orderedCategories).map(
+            ([category, orderedProducts]) => {
+              return (
+                <OrderedCategory
+                  key={category}
+                  category={category}
+                  orderedProducts={orderedProducts}
+                />
+              );
+            },
+          )}
+        </div>
+      )}
+    </>
   );
 }
