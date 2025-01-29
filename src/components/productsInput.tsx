@@ -1,5 +1,3 @@
-"use client";
-
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "./_ui/button";
@@ -13,19 +11,25 @@ import {
 } from "./_ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "./_ui/popover";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import { addProductToOrder, unSelectProduct } from "@/slices/order";
 
-export function ProductsInput({ productList = [] }: { productList: string[] }) {
-  const selectedCategory = useSelector(
-    (state: RootState) => state.categories.selectedCategory,
+export function ProductsInput() {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { categories, selectedCategory } = useSelector(
+    (state: RootState) => state.categories,
+  );
+
+  const { lastSelectedProduct } = useSelector(
+    (state: RootState) => state.order,
   );
 
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
-  const [selectedValues, setSelectedValues] = useState<Set<string>>(new Set());
   const [items, setItems] = useState<string[]>([]);
 
+  // Handles popover open/close state
   function shouldBeOpen(open: boolean) {
     if (!selectedCategory) {
       return;
@@ -35,9 +39,14 @@ export function ProductsInput({ productList = [] }: { productList: string[] }) {
   }
 
   useEffect(() => {
-    setItems(productList);
-    setValue("");
-  }, [productList]);
+    dispatch(unSelectProduct());
+    const newItems =
+      categories
+        .find((category) => category.name === selectedCategory)
+        ?.products.map((product) => product.name) ?? [];
+
+    setItems(newItems);
+  }, [selectedCategory, categories, dispatch]);
 
   return (
     <Popover open={open && !!selectedCategory} onOpenChange={shouldBeOpen}>
@@ -48,43 +57,35 @@ export function ProductsInput({ productList = [] }: { productList: string[] }) {
           aria-expanded={open}
           className="w-[200px] justify-between"
         >
-          {value ? items.find((item) => item === value) : "בחר מוצר"}
+          {lastSelectedProduct || "בחר מוצר"}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
           <CommandInput placeholder="Search item..." />
           <CommandList>
-            <CommandEmpty>No item found.</CommandEmpty>
+            <CommandEmpty>No items found.</CommandEmpty>
             <CommandGroup>
               {items.map((item) => (
                 <CommandItem
-                  style={{
-                    pointerEvents: selectedValues.has(item) ? "none" : "auto",
-                  }}
                   key={item}
                   value={item}
-                  onSelect={(currentValue) => {
-                    console.log("dmksmdksmdk");
-
-                    setValue(currentValue === value ? "" : currentValue);
-                    const newSelectedProductList = new Set([
-                      ...selectedValues,
-                      currentValue,
-                    ]);
-
-                    if (newSelectedProductList.size === selectedValues.size)
-                      return;
-
-                    setSelectedValues(new Set(newSelectedProductList));
-
+                  onSelect={() => {
+                    dispatch(
+                      addProductToOrder({
+                        categoryName: selectedCategory,
+                        productName: item,
+                      }),
+                    );
                     setOpen(false);
                   }}
                 >
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      selectedValues.has(item) ? "opacity-100" : "opacity-0",
+                      lastSelectedProduct === item
+                        ? "opacity-100"
+                        : "opacity-0",
                     )}
                   />
                   {item}

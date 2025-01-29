@@ -3,12 +3,12 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 import { Provider } from "react-redux";
 import "./index.css";
 import { store } from "./store.tsx";
-import SecondPage from "./pages/secondPage.tsx";
+import FirstPage from "./pages/firstPage.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <SecondPage />,
+    element: <FirstPage />,
   },
 ]);
 

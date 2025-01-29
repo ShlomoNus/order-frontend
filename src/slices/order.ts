@@ -7,11 +7,13 @@ export interface OrderedProduct {
 
 const initialState: {
   orderedCategories: Record<string, OrderedProduct[]>;
+  lastSelectedProduct: string;
 } = {
   orderedCategories: {},
+  lastSelectedProduct: "",
 };
 
-const categoriesSlice = createSlice({
+const orderSlice = createSlice({
   name: "categories",
   initialState,
   reducers: {
@@ -29,6 +31,7 @@ const categoriesSlice = createSlice({
         name: productName,
         amount: 1,
       });
+      state.lastSelectedProduct = productName;
     },
 
     updateProductAmount: (
@@ -80,10 +83,17 @@ const categoriesSlice = createSlice({
         delete state.orderedCategories[categoryName];
       }
     },
+    unSelectProduct(state) {
+      state.lastSelectedProduct = "";
+    },
   },
 });
 
-export const { addProductToOrder, updateProductAmount, deleteProduct } =
-  categoriesSlice.actions;
+export const {
+  addProductToOrder,
+  updateProductAmount,
+  deleteProduct,
+  unSelectProduct,
+} = orderSlice.actions;
 
-export default categoriesSlice.reducer;
+export default orderSlice.reducer;
