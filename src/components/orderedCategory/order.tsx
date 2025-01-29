@@ -10,7 +10,10 @@ export default function Order() {
   return (
     <>
       {categoryKeys.length > 0 && (
-        <div className="flex flex-row-reverse w-full pr-28 gap-3">
+        <div
+          className="flex flex-row-reverse w-full pr-28 gap-3 flex-wrap
+"
+        >
           {Object.entries(orderedCategories).map(
             ([category, orderedProducts]) => {
               return (

@@ -22,7 +22,7 @@ export function ProductsInput() {
     (state: RootState) => state.categories,
   );
 
-  const { lastSelectedProduct } = useSelector(
+  const { lastSelectedProduct, totalProducts } = useSelector(
     (state: RootState) => state.order,
   );
 
@@ -82,7 +82,7 @@ export function ProductsInput() {
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      lastSelectedProduct === item
+                      totalProducts.includes(item)
                         ? "opacity-100"
                         : "opacity-0",
                     )}

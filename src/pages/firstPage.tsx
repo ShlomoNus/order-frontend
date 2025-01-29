@@ -16,7 +16,7 @@ export default function FirstPage() {
   return (
     <div className="flex flex-col justify-center items-center gap-10">
       <h1> קניות דיגטליות ששון בע''מ</h1>
-      <div className="flex flex-row">
+      <div className="flex flex-row gap-10">
         <ProductsInput />
         <ProductSelect />
       </div>

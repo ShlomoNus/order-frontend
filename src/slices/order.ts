@@ -8,9 +8,11 @@ export interface OrderedProduct {
 const initialState: {
   orderedCategories: Record<string, OrderedProduct[]>;
   lastSelectedProduct: string;
+  totalProducts: string[];
 } = {
   orderedCategories: {},
   lastSelectedProduct: "",
+  totalProducts: [],
 };
 
 const orderSlice = createSlice({
@@ -23,6 +25,10 @@ const orderSlice = createSlice({
     ) => {
       const { categoryName, productName } = action.payload;
 
+      if (state.totalProducts.includes(productName)) {
+        return;
+      }
+
       if (!state.orderedCategories[categoryName]) {
         state.orderedCategories[categoryName] = [];
       }
@@ -32,6 +38,8 @@ const orderSlice = createSlice({
         amount: 1,
       });
       state.lastSelectedProduct = productName;
+
+      state.totalProducts.push(productName);
     },
 
     updateProductAmount: (
@@ -42,6 +50,8 @@ const orderSlice = createSlice({
         actionName: "increment" | "decrement";
       }>,
     ) => {
+      console.log("mdksdks");
+
       const { categoryName, productName, actionName } = action.payload;
 
       const category = state.orderedCategories[categoryName];
@@ -61,6 +71,9 @@ const orderSlice = createSlice({
       if (product.amount === 0) {
         state.orderedCategories[categoryName] = category.filter(
           (p) => p.name !== productName,
+        );
+        state.totalProducts = state.totalProducts.filter(
+          (p) => p !== productName,
         );
       }
     },
@@ -82,7 +95,12 @@ const orderSlice = createSlice({
       if (state.orderedCategories[categoryName].length === 0) {
         delete state.orderedCategories[categoryName];
       }
+
+      state.totalProducts = state.totalProducts.filter(
+        (p) => p !== productName,
+      );
     },
+
     unSelectProduct(state) {
       state.lastSelectedProduct = "";
     },
